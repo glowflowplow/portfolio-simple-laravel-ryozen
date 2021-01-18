@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Post;
 
 use App\Models\User;
 use App\Models\Post;
@@ -14,24 +14,26 @@ class CreatePostTest extends TestCase
 
     public function test_posting_screen_can_be_rendered()
     {
+        $this->actingAs($user = User::factory()->create());
         $response = $this->get('/posts');
-
         $response->assertStatus(200);
     }
 
     public function test_create_post()
     {
-        $this->actingAs($post = Post::factory()->create());
+        $this->actingAs($user = User::factory()->create());
         $response = $this->post('/posts/create', [
             'message' => 'test message'
         ]);
 
-        $response->assertRedirect(RouteServiceProvider::PostsList);
-        $this->assertSame('test message', $user->fresh()->message);
+        $response->assertRedirect('/posts');
+        $this->assertSame('test message', $user->fresh()->posts()->first()->message);
     }
 
-    public function test_failed_to_create_post_when_empty_message()
+    public function test_reload_create_post_screen_if_send_empty_message()
     {
+        $this->actingAs($user = User::factory()->create());
+
         $response = $this->post('/posts/create', [
             'message' => ''
         ]);
