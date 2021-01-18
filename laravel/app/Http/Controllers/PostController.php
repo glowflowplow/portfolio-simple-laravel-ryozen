@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -14,7 +15,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Auth::user()->posts()->get();
+
+        return view('post.posts', [
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -24,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -35,18 +40,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $post = new Post();
+        $post->message = $request->message;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
+        $user = Auth::user();
+        $user->posts()->save($post);
+
+        return redirect()->route('posts');
     }
 
     /**
@@ -57,7 +57,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('post.edit', [
+            'message' => $post->message
+        ]);
     }
 
     /**
@@ -69,7 +71,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $user = Auth::user();
+
+        $post->message = $request->message;
+
+        $user->posts()->save($post);
+
+        return redirect()->route('posts');
     }
 
     /**
@@ -80,6 +88,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('posts');
     }
 }
