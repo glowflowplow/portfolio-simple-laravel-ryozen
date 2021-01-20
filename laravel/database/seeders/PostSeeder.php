@@ -15,12 +15,13 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
-            ->create()
-            ->each(function(User $user) {
-                $user->posts()->saveMany(
-                    Post::factory()->count(5)->make()
-                );
-            });
+        $user = User::factory()->create();
+        $user->posts()->saveMany(
+            Post::factory()->count(5)->make()
+        );
+        $user->name="user";
+        $user->email="test@example.com";
+        $user->password=bcrypt("password");
+        $user->save();
     }
 }
