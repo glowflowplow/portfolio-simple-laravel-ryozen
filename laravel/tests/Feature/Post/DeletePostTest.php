@@ -59,12 +59,12 @@ class DeletePostTest extends TestCase
         $this->actingAs($user = User::factory()->create());
         $user->posts()->saveMany(Post::factory()->count(5)->make());
 
-        $deleting_post_id = $user->posts()->first()->id;
-        $user->posts()->delete($deleting_post_id);
+        $post = $user->posts()->first();
+        $id = $post->id;
+        $post->delete();
 
-        $response = $this->post("/posts/{$deleting_post_id}/delete");
+        $response = $this->post("/posts/{$id}/delete");
         $response->assertStatus(404);
-        $response->assertRedirect('/posts');
 
         $this->assertCount(4, $user->posts()->get());
     }

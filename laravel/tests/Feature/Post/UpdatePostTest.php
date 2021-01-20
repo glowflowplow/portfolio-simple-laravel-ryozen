@@ -33,9 +33,9 @@ class UpdatePostTest extends TestCase
             'message' => 'test updated message'
         ]);
 
-        $response->assertStatus(302);
         $response->assertRedirect('/posts');
         $this->assertEquals('test updated message', $post->fresh()->message);
+        $this->assertCount(5, $user->posts()->get());
     }
 
     public function test_failed_to_update_deleted_post()
@@ -43,13 +43,16 @@ class UpdatePostTest extends TestCase
         $this->actingAs($user = User::factory()->create());
         $user->posts()->saveMany(Post::factory()->count(5)->make());
 
-        $id = $user->posts()->first()->id;
-        $user->posts()->delete($id);
+        $post = $user->posts()->first();
+        $id = $post->id;
+        $post->delete();
+
         $response = $this->post("/posts/{$id}/edit", [
             'message' => 'test updated message'
         ]);
 
         $response->assertStatus(404);
-        $response->assertRedirect('/posts');
+        $this->assertCount(0, $user->posts()->get()->where('message', 'LIKE', '%update%'));
+        $this->assertCount(4, $user->posts()->get());
     }
 }

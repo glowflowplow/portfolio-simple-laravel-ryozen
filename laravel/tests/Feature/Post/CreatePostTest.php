@@ -22,12 +22,12 @@ class CreatePostTest extends TestCase
     public function test_create_post()
     {
         $this->actingAs($user = User::factory()->create());
-        $response = $this->post('/posts/create', [
+        $response = $this->from('/posts')->post('/posts/create', [
             'message' => 'test message'
         ]);
 
         $response->assertRedirect('/posts');
-        $this->assertSame('test message', $user->fresh()->posts()->first()->message);
+        $this->assertEquals('test message', $user->fresh()->posts()->first()->message);
     }
 
     public function test_reload_create_post_screen_if_send_empty_message()
