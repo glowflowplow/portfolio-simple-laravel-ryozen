@@ -14,6 +14,12 @@
         <testsuite name="Feature/Post">
             <directory suffix="Test.php">./tests/Feature/Post</directory>
         </testsuite>
+        <testsuite name="Feature/Command">
+            <directory sufix="Test.php">./tests/Feature/Command</directory>
+        </testsuite>
+        <testsuite name="Feature/Command/DeleteExpiredUserCommand">
+            <file>./tests/Feature/Command/DeleteExpiredUserCommandTest.php</file>
+        </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
