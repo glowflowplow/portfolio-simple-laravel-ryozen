@@ -15,8 +15,12 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/', function () {
+    if(Auth::check())
+    {
+        return view('home');
+    }
     return view('welcome');
-});
+})->name('home');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::get('/dashboard', function () {
@@ -31,9 +35,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::post('/posts/{post}/delete', [PostController::class, 'destroy']);
 });
 
-    Route::fallback(function($route) {
-        if(Str::startsWith($route, 'posts')) {
-            return redirect()->route('posts');
-        }
-    });
+Route::fallback(function($route) {
+    if(Str::startsWith($route, 'posts')) {
+        return redirect()->route('posts');
+    }
+});
 
