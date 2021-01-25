@@ -29,11 +29,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::get('/posts/{post}/edit', [PostController::class, 'edit']);
     Route::post('/posts/{post}/edit', [PostController::class, 'update']);
     Route::post('/posts/{post}/delete', [PostController::class, 'destroy']);
+});
+
     Route::fallback(function($route) {
-        var_dump($route);
         if(Str::startsWith($route, 'posts')) {
             return redirect()->route('posts');
         }
     });
-});
 
