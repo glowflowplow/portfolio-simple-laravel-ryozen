@@ -124,7 +124,8 @@
         </div>
     </nav>
 
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+    <!-- Content -->
+    <div class="flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
         <div class="w-3/4 mt-12">
             <div class="justify-start">
                 <a href="#"
