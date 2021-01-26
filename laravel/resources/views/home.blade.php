@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        HOME
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            HOME
+        </h2>
     </x-slot>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
