@@ -19,5 +19,8 @@
                 </div>
             </a>
         </div>
+        <div class="absolute bottom-0 right-0 mb-2 mr-4">
+            <a href="https://github.com/glowflowplow/portfolio-simple-laravel-ryozen">view source</a>
+        </div>
     </div>
 </x-app-layout>
